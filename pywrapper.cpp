@@ -20,12 +20,12 @@ double VSum(const list& li) {
 
 // Аналог функции sum из Питона для листа значений
 // Работает дольше из-за необходимости экспорта значений
-float LSum(const list& li) {
-    float sum = 0.0;
+int LSum(const list& li) {
+    int sum = 0.0;
     int length = len(li);
     int i = 0;
     for (i = 0; i < length; ++i) {
-        sum += extract<float>(li[i]);
+        sum += extract<int>(li[i]);
     }
     return sum;
 }
@@ -50,8 +50,8 @@ const std::string MyClass_Repr(const MyClass& obj) {
 BOOST_PYTHON_MODULE(PyCppExample) 
 {
     // Обертки функций
-    def("fun", Fun, args("n"), "fun's docstring");
-    def("strfun", Strfun, "strfun's docstring");
+    def("Fun", Fun, args("n"), "fun's docstring");
+    def("Strfun", Strfun, "strfun's docstring");
     def("VSum", VSum, args("list"));
     def("LSum", LSum, args("list"));
     def("GenerateExeption", GenerateExeption, args("n"));

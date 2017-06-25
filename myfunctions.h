@@ -4,10 +4,11 @@
 #include <vector>
 
 int Fun(int n) {
-    for (int i = 0; i < 1000000000; ++i) {
-        n++;
+    int res = 0;
+    for (int i = 0; i < 1000000; ++i) {
+        res += n;
     }
-    return n;
+    return res;
 }
 
 std::string Strfun() {
