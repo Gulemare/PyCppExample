@@ -11,10 +11,10 @@ int fun(int n) {
 
 BOOST_PYTHON_MODULE(PyCppExample) 
 {
-    // Обертка функции
+    // РћР±РµСЂС‚РєР° С„СѓРЅРєС†РёРё
     def("fun", fun, args("n"), "fun's docstring");
 
-    // Обертка класса
+    // РћР±РµСЂС‚РєР° РєР»Р°СЃСЃР°
     class_<MyClass>("MyClass")
         .add_property("num", make_getter(&MyClass::num_), make_setter(&MyClass::num_))
         ;
