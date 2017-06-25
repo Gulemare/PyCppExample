@@ -23,7 +23,7 @@ double VectorSum(const std::vector<double>& v) {
 }
 
 void GenerateExeption(int n) {
-    throw n;
+    throw std::exception(std::to_string(n).c_str());
 }
 
 #endif // !PYCPPEXAMPLE_MYFUNCTIONS_H_

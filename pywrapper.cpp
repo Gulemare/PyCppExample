@@ -6,7 +6,7 @@
 #include <list>
 using namespace boost::python;
 
-// Парсит лист Питона в вектор и использует функцию из библиотеки 
+// Парсит лист Питона в вектор и использует функцию
 // для суммирования элементов вектора (просто для демонстрации)
 double VSum(const list& li) {
     std::vector<double> v;
@@ -30,6 +30,13 @@ float LSum(const list& li) {
     return sum;
 }
 
+// Переброс исключений в Питон
+void TranslateError(const std::exception& e) {
+    std::stringstream s;
+    s << "Oops! Error from C++ code: " << e.what();
+    PyErr_SetString(PyExc_Exception, s.str().c_str());
+}
+
 // Методы класса-обертки для представления в Питоне
 const std::string MyClass_Str(const MyClass& obj) {
     std::stringstream output;
@@ -51,11 +58,16 @@ BOOST_PYTHON_MODULE(PyCppExample)
 
     // Обертка класса
     class_<MyClass>("MyClass")
+        // Конструктор по-умолчанию генерируется сам, другие надо указывать
         .def(init<int, std::string>(args("number","name")))
-        // Для функций, возвращающих ссылки или указатели - необходимо явно указывать политику что делать Питону
-        .def("getNum",&MyClass::getNum)
-        .def("getName",&MyClass::getName, return_value_policy<copy_const_reference>())
+
+        // Для функций, возвращающих ссылки или указатели необходимо явно указывать политику для Питона
+        .def("getNum", &MyClass::getNum)
+        .def("getName", &MyClass::getName, return_value_policy<copy_const_reference>())
         .def("__str__", MyClass_Str)
         .def("__repr__", MyClass_Repr)
         ;
+
+    // Регистрация функции проброса исключений в Питон
+    register_exception_translator<std::exception>(TranslateError);
 }
