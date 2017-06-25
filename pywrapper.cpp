@@ -1,3 +1,4 @@
+#define BOOST_PYTHON_STATIC_LIB
 #include <boost/python.hpp>
 #include "myclass.h"
 #include "myfunctions.h"
