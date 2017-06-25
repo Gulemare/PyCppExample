@@ -3,14 +3,14 @@
 #include <string>
 #include <vector>
 
-int fun(int n) {
+int Fun(int n) {
     for (int i = 0; i < 1000000000; ++i) {
         n++;
     }
     return n;
 }
 
-std::string strfun() {
+std::string Strfun() {
     return std::string("StringFun");
 }
 
@@ -20,6 +20,10 @@ double VectorSum(const std::vector<double>& v) {
         res += i;
     }
     return res;
+}
+
+void GenerateExeption(int n) {
+    throw n;
 }
 
 #endif // !PYCPPEXAMPLE_MYFUNCTIONS_H_

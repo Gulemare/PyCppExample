@@ -10,13 +10,16 @@ using namespace boost::python;
 // для суммирования элементов вектора (просто для демонстрации)
 double VSum(const list& li) {
     std::vector<double> v;
-    for (int i = 0; i < len(li); ++i) {
+    int length = len(li);
+    v.reserve(length);
+    for (int i = 0; i < length; ++i) {
         v.push_back(extract<double>(li[i]));
     }
     return VectorSum(v);
 }
 
 // Аналог функции sum из Питона для листа значений
+// Работает дольше из-за необходимости экспорта значений
 float LSum(const list& li) {
     float sum = 0.0;
     int length = len(li);
@@ -39,19 +42,20 @@ const std::string MyClass_Repr(const MyClass& obj) {
 
 BOOST_PYTHON_MODULE(PyCppExample) 
 {
-    // Обертка функции
-    def("fun", fun, args("n"), "fun's docstring");
-    def("strfun", strfun, "strfun's docstring");
+    // Обертки функций
+    def("fun", Fun, args("n"), "fun's docstring");
+    def("strfun", Strfun, "strfun's docstring");
     def("VSum", VSum, args("list"));
     def("LSum", LSum, args("list"));
+    def("GenerateExeption", GenerateExeption, args("n"));
 
     // Обертка класса
     class_<MyClass>("MyClass")
         .def(init<int, std::string>(args("number","name")))
+        // Для функций, возвращающих ссылки или указатели - необходимо явно указывать политику что делать Питону
         .def("getNum",&MyClass::getNum)
         .def("getName",&MyClass::getName, return_value_policy<copy_const_reference>())
         .def("__str__", MyClass_Str)
         .def("__repr__", MyClass_Repr)
         ;
-    
 }
