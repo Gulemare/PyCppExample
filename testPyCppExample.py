@@ -55,6 +55,11 @@ except BaseException as e:
     print("Exception from C++ catched!" )
     print(e)
 
+a = MyClass();
+a.name = 'Prra'
+b = MyClass();
+print(b.name)
+
 
 
 

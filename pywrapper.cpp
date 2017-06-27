@@ -59,13 +59,15 @@ BOOST_PYTHON_MODULE(PyCppExample)
     // Обертка класса
     class_<MyClass>("MyClass")
         // Конструктор по-умолчанию генерируется сам, другие надо указывать
-        .def(init<int, std::string>(args("number","name")))
+        .def(init<int, std::string>(args("number", "name")))
 
         // Для функций, возвращающих ссылки или указатели необходимо явно указывать политику для Питона
         .def("getNum", &MyClass::getNum)
         .def("getName", &MyClass::getName, return_value_policy<copy_const_reference>())
         .def("__str__", MyClass_Str)
         .def("__repr__", MyClass_Repr)
+        .add_property("name", make_function( static_cast<const std::string& (MyClass::*)() const>(&MyClass::getName),
+            return_value_policy<copy_const_reference>()), &MyClass::setName)
         ;
 
     // Регистрация функции проброса исключений в Питон
