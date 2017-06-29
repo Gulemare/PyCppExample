@@ -47,6 +47,9 @@ const std::string MyClass_Repr(const MyClass& obj) {
     return "MyClass" + MyClass_Str(obj);
 }
 
+// Глобальная переменная
+static MyClassLib lib;
+
 BOOST_PYTHON_MODULE(PyCppExample) 
 {
     // Обертки функций
@@ -69,6 +72,13 @@ BOOST_PYTHON_MODULE(PyCppExample)
         .add_property("name", make_function( static_cast<const std::string& (MyClass::*)() const>(&MyClass::getName),
             return_value_policy<copy_const_reference>()), &MyClass::setName)
         ;
+
+    class_<MyClassLib>("MyClassLib")
+        .def("update", &MyClassLib::updateObj)
+        .def("get", &MyClassLib::getObject)
+        ;
+
+    scope().attr("lib") = lib;
 
     // Регистрация функции проброса исключений в Питон
     register_exception_translator<std::exception>(TranslateError);

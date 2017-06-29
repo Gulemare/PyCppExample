@@ -60,6 +60,12 @@ a.name = 'Prra'
 b = MyClass();
 print(b.name)
 
+c = MyClass()
+lib.update(1, c)
+print lib.get(1)
+
+
+
 
 
 
